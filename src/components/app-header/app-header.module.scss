@@ -1,0 +1,11 @@
+.header {
+	composes: global(p-2);
+	display: flex;
+	justify-content: space-around;
+	background-color: var(--background);
+	.navigation {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
+}
