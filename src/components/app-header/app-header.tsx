@@ -19,9 +19,11 @@ export const AppHeader = () => {
 				</LinkButton>
 			</nav>
 			<Logo />
-			<LinkButton active={false} logo={<ProfileIcon type='secondary' />}>
-				Личный кабинет
-			</LinkButton>
+			<nav>
+				<LinkButton active={false} logo={<ProfileIcon type='secondary' />}>
+					Личный кабинет
+				</LinkButton>
+			</nav>
 		</header>
 	);
 };

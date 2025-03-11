@@ -1,0 +1,13 @@
+.ingridientCard {
+	display: grid;
+	position: relative;
+	justify-content: center;
+	grid-template-rows: 120px 24px 48px;
+	gap: 4px;
+	max-width: 260px;
+	.counter {
+		position: absolute;
+		top: 0;
+		right: 0;
+	}
+}

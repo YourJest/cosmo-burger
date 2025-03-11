@@ -1,5 +1,6 @@
-html * {
-	font-family: Jet Brains Mono;
+body {
+	max-height: 100vh;
+	overflow: hidden;
 }
 a {
 	color: inherit; /* blue colors for links too */

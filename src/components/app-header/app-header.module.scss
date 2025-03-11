@@ -2,6 +2,7 @@
 	composes: global(p-2);
 	display: flex;
 	justify-content: space-around;
+	align-items: center;
 	background-color: var(--background);
 	.navigation {
 		display: flex;
