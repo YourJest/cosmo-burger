@@ -2,6 +2,7 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useRef, useState } from 'react';
 import styles from './burger-ingridients.module.scss';
 import { IngridientList } from './ingridient-list/ingridient-list';
+import clsx from 'clsx';
 
 enum IngridientTabType {
 	BUN = 'bun',
@@ -32,9 +33,9 @@ export const BurgerIngridients = () => {
 	};
 
 	return (
-		<section className={styles.burgerIngridients}>
+		<section className={clsx('pt-10', styles.burgerIngridients)}>
 			<h1 className='text text_type_main-large'>Соберите бургер</h1>
-			<div style={{ display: 'flex' }}>
+			<div className={clsx('pr-4', styles.tabs)}>
 				<Tab
 					value={IngridientTabType.BUN}
 					active={selectedTab === IngridientTabType.BUN}

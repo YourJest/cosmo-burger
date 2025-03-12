@@ -1,12 +1,5 @@
 .ingridientList {
 	overflow: auto;
-	padding-top: 40px;
+	scrollbar-gutter: stable both-edges;
 	flex-grow: 1;
-
-	.ingridientCategory {
-		display: grid;
-		grid-template-columns: auto auto;
-		gap: 24;
-		padding-left: 16px;
-	}
 }

@@ -1,0 +1,7 @@
+.burgerConstructor {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: calc(var(--offset-base-size) * 10);
+	width: 600px;
+}

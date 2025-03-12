@@ -1,0 +1,11 @@
+.checkout {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	align-self: flex-end;
+	gap: calc(var(--offset-base-size) * 10);
+	.totalPrice {
+		display: flex;
+		gap: calc(var(--offset-base-size) * 2);
+	}
+}

@@ -1,0 +1,23 @@
+.fillingWrapper {
+	display: flex;
+	flex-grow: 1;
+	flex-direction: column;
+	align-items: center;
+	height: 600px;
+	gap: calc(var(--offset-base-size) * 4);
+	.ingridients {
+		display: flex;
+		flex-grow: 1;
+		flex-direction: column;
+		align-items: center;
+		gap: calc(var(--offset-base-size) * 4);
+		overflow: auto;
+		scrollbar-gutter: stable both-edges;
+		.ingridient {
+			display: flex;
+			align-items: center;
+			width: 100%;
+			gap: calc(var(--offset-base-size) * 2);
+		}
+	}
+}

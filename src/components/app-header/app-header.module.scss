@@ -1,12 +1,17 @@
 .header {
-	composes: global(p-2);
-	display: flex;
-	justify-content: space-around;
-	align-items: center;
 	background-color: var(--background);
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	.navigation {
 		display: flex;
+		justify-content: space-between;
 		align-items: center;
-		gap: 8px;
+		width: 1280px;
+		.menuLeft {
+			display: flex;
+			flex-direction: row;
+			gap: 8px;
+		}
 	}
 }

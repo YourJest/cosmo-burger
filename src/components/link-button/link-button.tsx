@@ -13,7 +13,6 @@ export const LinkButton = ({
 	href = '/#',
 	active,
 	children,
-	className,
 }: LinkButtonProps) => {
 	return (
 		<a
@@ -21,8 +20,8 @@ export const LinkButton = ({
 			className={clsx(
 				'text text_type_main-default',
 				!active && 'text_color_inactive',
-				linkStyles.linkButton,
-				className
+				'pb-4 pt-4 pl-5 pr-5',
+				linkStyles.linkButton
 			)}>
 			{logo}
 			{children}
