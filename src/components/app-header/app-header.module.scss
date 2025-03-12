@@ -1,13 +1,15 @@
 .header {
-	background-color: var(--background);
 	display: flex;
-	align-items: center;
 	justify-content: center;
+	align-items: center;
+	background-color: var(--background);
+
 	.navigation {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 		width: 1280px;
+
 		.menuLeft {
 			display: flex;
 			flex-direction: row;
