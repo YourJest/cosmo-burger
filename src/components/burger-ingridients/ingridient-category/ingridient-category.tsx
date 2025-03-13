@@ -22,14 +22,7 @@ export const IngridientCategory = ({
 			</p>
 			<div className={clsx('pt-4', styles.ingridientCategory)}>
 				{ingridients.map((ingridient) => (
-					<IngridientCard
-						key={ingridient._id}
-						id={ingridient._id}
-						count={1}
-						imageSrc={ingridient.image}
-						name={ingridient.name}
-						price={ingridient.price}
-					/>
+					<IngridientCard key={ingridient._id} id={ingridient._id} count={1} />
 				))}
 			</div>
 		</>

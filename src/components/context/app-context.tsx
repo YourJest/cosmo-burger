@@ -6,6 +6,7 @@ interface AppContext {
 	isLoadingIngridients: boolean;
 	hasErrorIngrindents: boolean;
 	ingridientsData: IngridientEntry[] | undefined;
+	getInridientById: (id: string) => IngridientEntry | undefined;
 }
 const AppContext = createContext<AppContext | null>(null);
 
@@ -15,9 +16,19 @@ export const AppContextProvider = ({ children }: PropsWithChildren) => {
 		hasError: hasErrorIngrindents,
 		data: ingridientsData,
 	} = useFetch<IngridientEntry[]>(ingredientsApiUrl);
+
+	const getInridientById = (id: string): IngridientEntry | undefined => {
+		return ingridientsData?.find((ingridient) => ingridient._id === id);
+	};
+
 	return (
 		<AppContext.Provider
-			value={{ isLoadingIngridients, hasErrorIngrindents, ingridientsData }}>
+			value={{
+				isLoadingIngridients,
+				hasErrorIngrindents,
+				ingridientsData,
+				getInridientById,
+			}}>
 			{children}
 		</AppContext.Provider>
 	);
