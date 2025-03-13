@@ -3,15 +3,18 @@ import { BurgerIngridients } from '@components/burger-ingridients/burger-ingridi
 import styles from './app.module.scss';
 import { BurgerConstructor } from '@components/burger-constructor/burger-constructor';
 import clsx from 'clsx';
+import { AppContextProvider } from '@components/context/app-context';
 
 export const App = () => {
 	return (
 		<>
-			<AppHeader />
-			<main className={clsx('pb-10', styles.constructorPage)}>
-				<BurgerIngridients />
-				<BurgerConstructor />
-			</main>
+			<AppContextProvider>
+				<AppHeader />
+				<main className={clsx('pb-10', styles.constructorPage)}>
+					<BurgerIngridients />
+					<BurgerConstructor />
+				</main>
+			</AppContextProvider>
 		</>
 	);
 };
