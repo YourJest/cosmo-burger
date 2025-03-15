@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { Modal } from '@components/modal/modal';
 import { useAppContext } from '@components/context/app-context';
 import { IngridientDetails } from '@components/ingridient-details/ingridient-details';
+import clsx from 'clsx';
 
 interface IngridientCardProps {
 	id: string;
@@ -32,13 +33,11 @@ export const IngridientCard = ({ id, count }: IngridientCardProps) => {
 			className={styles.ingridientCard}
 			onClick={toggleOpenIngridientsDetails}>
 			<img src={ingridentInfo.image} alt={ingridentInfo.name} />
-			<div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
+			<div className={styles.price}>
 				<p className='text text_type_digits-default'>{ingridentInfo.price}</p>
 				<CurrencyIcon type='primary' />
 			</div>
-			<p
-				className='text text_type_main-default'
-				style={{ textAlign: 'center' }}>
+			<p className={clsx(styles.name, 'text text_type_main-default')}>
 				{ingridentInfo.name}
 			</p>
 			{count > 0 && (
@@ -46,12 +45,13 @@ export const IngridientCard = ({ id, count }: IngridientCardProps) => {
 					<Counter count={count} />
 				</div>
 			)}
-			<Modal
-				title='Детали ингредиента'
-				open={openIngridentDetails}
-				onClose={toggleOpenIngridientsDetails}>
-				<IngridientDetails ingridientInfo={ingridentInfo} />
-			</Modal>
+			{openIngridentDetails && (
+				<Modal
+					title='Детали ингредиента'
+					onClose={toggleOpenIngridientsDetails}>
+					<IngridientDetails ingridientInfo={ingridentInfo} />
+				</Modal>
+			)}
 		</button>
 	);
 };

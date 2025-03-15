@@ -7,14 +7,12 @@ import { AppContextProvider } from '@components/context/app-context';
 
 export const App = () => {
 	return (
-		<>
-			<AppContextProvider>
-				<AppHeader />
-				<main className={clsx('pb-10', styles.constructorPage)}>
-					<BurgerIngridients />
-					<BurgerConstructor />
-				</main>
-			</AppContextProvider>
-		</>
+		<AppContextProvider>
+			<AppHeader />
+			<main className={clsx('pb-10', styles.constructorPage)}>
+				<BurgerIngridients />
+				<BurgerConstructor />
+			</main>
+		</AppContextProvider>
 	);
 };

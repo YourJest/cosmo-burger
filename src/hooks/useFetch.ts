@@ -9,11 +9,11 @@ export const useFetch = <Data>(url: string) => {
 			setIsLoading(true);
 			try {
 				const response = await fetch(url);
-				if (response.ok) {
-					const { data } = await response.json();
-					console.log(data);
-					setData(data);
+				if (!response.ok) {
+					throw new Error(`Fetch error ${response.status}`);
 				}
+				const { data } = await response.json();
+				setData(data);
 			} catch (error) {
 				console.error(error);
 				setHasError(true);

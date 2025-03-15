@@ -16,7 +16,7 @@ export const IngridientCategory = ({
 	ingridients,
 }: IngridientCategoryProps) => {
 	return (
-		<>
+		<div>
 			<p ref={nameRef} className='text text_type_main-medium'>
 				{name}
 			</p>
@@ -25,6 +25,6 @@ export const IngridientCategory = ({
 					<IngridientCard key={ingridient._id} id={ingridient._id} count={1} />
 				))}
 			</div>
-		</>
+		</div>
 	);
 };

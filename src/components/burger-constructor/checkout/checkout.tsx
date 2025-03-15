@@ -23,9 +23,11 @@ export const Checkout = () => {
 			<Button htmlType='button' onClick={toggleOpenOrderStatus}>
 				Оформить заказ
 			</Button>
-			<Modal open={openOrderStatus} onClose={toggleOpenOrderStatus}>
-				<OrderDetails />
-			</Modal>
+			{openOrderStatus && (
+				<Modal onClose={toggleOpenOrderStatus}>
+					<OrderDetails />
+				</Modal>
+			)}
 		</div>
 	);
 };
