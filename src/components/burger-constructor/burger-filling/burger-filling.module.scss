@@ -1,0 +1,25 @@
+.fillingWrapper {
+	display: flex;
+	flex-grow: 1;
+	flex-direction: column;
+	align-items: center;
+	gap: calc(var(--offset-base-size) * 4);
+	height: 600px;
+
+	.ingridients {
+		display: flex;
+		flex-grow: 1;
+		flex-direction: column;
+		align-items: center;
+		gap: calc(var(--offset-base-size) * 4);
+		overflow: auto;
+		scrollbar-gutter: stable both-edges;
+
+		.ingridient {
+			display: flex;
+			align-items: center;
+			gap: calc(var(--offset-base-size) * 2);
+			width: 100%;
+		}
+	}
+}

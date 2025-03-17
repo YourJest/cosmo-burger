@@ -1,0 +1,8 @@
+.ingridientList {
+	display: flex;
+	flex-grow: 1;
+	flex-direction: column;
+	gap: 40px;
+	overflow: auto;
+	scrollbar-gutter: stable both-edges;
+}

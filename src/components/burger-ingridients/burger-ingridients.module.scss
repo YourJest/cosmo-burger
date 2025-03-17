@@ -1,0 +1,11 @@
+.burgerIngridients {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	width: 616px;
+	height: 756px;
+
+	.tabs {
+		display: flex;
+	}
+}

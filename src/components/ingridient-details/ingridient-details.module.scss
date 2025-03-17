@@ -1,0 +1,27 @@
+.ingridientDetails {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 16px;
+
+	.nameAndDetails {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 32px;
+
+		.details {
+			display: flex;
+			flex-direction: row;
+			gap: 20px;
+
+			.detailsEntry {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+			}
+		}
+	}
+}
