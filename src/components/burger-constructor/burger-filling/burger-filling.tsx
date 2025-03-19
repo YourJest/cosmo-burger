@@ -4,15 +4,25 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-filling.module.scss';
 import { WithLoader } from '@components/with-loader/with-loader';
-import { useAppContext } from '@components/context/app-context';
+import { useGetAvailableIngredientsQuery } from '@services/api/norma-api';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store';
 
 export const BurgerFilling = () => {
-	const { isLoadingIngridients, hasErrorIngrindents, ingridientsData } =
-		useAppContext();
-	const ingridients = ingridientsData?.filter(
+	const { isFetching: isLoadingIngredients, isError: hasErrorIngredients } =
+		useGetAvailableIngredientsQuery();
+
+	const { constructorIngredients } = useSelector(
+		(store: RootState) => store.burgerConstructorReducer
+	);
+
+	const ingredients = constructorIngredients.filter(
 		(ingridient) => ingridient.type !== 'bun'
 	);
-	let bun = ingridientsData?.find((ingridient) => ingridient.type === 'bun');
+
+	let bun = constructorIngredients?.find(
+		(ingredient) => ingredient.type === 'bun'
+	);
 	if (!bun) {
 		bun = {
 			_id: '-1',
@@ -32,8 +42,8 @@ export const BurgerFilling = () => {
 	return (
 		<div className={styles.fillingWrapper}>
 			<WithLoader
-				isLoading={isLoadingIngridients}
-				hasError={hasErrorIngrindents}>
+				isLoading={isLoadingIngredients}
+				hasError={hasErrorIngredients}>
 				<div className={'pl-8'}>
 					<ConstructorElement
 						price={bun.price}
@@ -44,14 +54,14 @@ export const BurgerFilling = () => {
 						isLocked
 					/>
 				</div>
-				<div className={styles.ingridients}>
-					{ingridients?.map((ingridient) => (
-						<div key={ingridient._id} className={styles.ingridient}>
+				<div className={styles.ingredients}>
+					{ingredients?.map((ingredient) => (
+						<div key={ingredient._id} className={styles.ingredient}>
 							<DragIcon type='primary' />
 							<ConstructorElement
-								price={ingridient.price}
-								text={ingridient.name}
-								thumbnail={ingridient.image}
+								price={ingredient.price}
+								text={ingredient.name}
+								thumbnail={ingredient.image}
 							/>
 						</div>
 					))}

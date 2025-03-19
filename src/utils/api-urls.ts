@@ -1,6 +1,6 @@
 export const ingredientsApiUrl =
 	'https://norma.nomoreparties.space/api/ingredients';
-export interface IngridientEntry {
+export interface IngredientEntry {
 	_id: string;
 	name: string;
 	type: string;

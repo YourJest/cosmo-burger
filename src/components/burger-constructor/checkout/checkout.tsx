@@ -7,12 +7,22 @@ import clsx from 'clsx';
 import { Modal } from '@components/modal/modal';
 import { useState } from 'react';
 import { OrderDetails } from '@components/order-details/order-details';
+import { useLazyPlaceOrderQuery } from '@services/api/norma-api';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store';
 
 export const Checkout = () => {
 	const [openOrderStatus, setOpenOrderStatus] = useState(false);
-	const toggleOpenOrderStatus = () => {
+	const order = useSelector(
+		(store: RootState) => store.burgerConstructorReducer.constructorIngredients
+	);
+	const [trigger] = useLazyPlaceOrderQuery();
+
+	const handlePlaceOrder = () => {
+		trigger({ ingredients: order.map((ingridient) => ingridient._id) });
 		setOpenOrderStatus(!openOrderStatus);
 	};
+
 	const totalPrice = 610;
 	return (
 		<div className={clsx('pl-5 pr-5', styles.checkout)}>
@@ -20,11 +30,11 @@ export const Checkout = () => {
 				<p className='text text_type_digits-default'>{totalPrice}</p>
 				<CurrencyIcon type='primary' />
 			</div>
-			<Button htmlType='button' onClick={toggleOpenOrderStatus}>
+			<Button htmlType='button' onClick={handlePlaceOrder}>
 				Оформить заказ
 			</Button>
 			{openOrderStatus && (
-				<Modal onClose={toggleOpenOrderStatus}>
+				<Modal onClose={handlePlaceOrder}>
 					<OrderDetails />
 				</Modal>
 			)}

@@ -1,18 +1,19 @@
 import { AppHeader } from '@components/app-header/app-header';
-import { BurgerIngridients } from '@components/burger-ingridients/burger-ingridients';
+import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients';
 import styles from './app.module.scss';
 import { BurgerConstructor } from '@components/burger-constructor/burger-constructor';
 import clsx from 'clsx';
-import { AppContextProvider } from '@components/context/app-context';
+import { Provider } from 'react-redux';
+import { store } from '../../store';
 
 export const App = () => {
 	return (
-		<AppContextProvider>
+		<Provider store={store}>
 			<AppHeader />
 			<main className={clsx('pb-10', styles.constructorPage)}>
-				<BurgerIngridients />
+				<BurgerIngredients />
 				<BurgerConstructor />
 			</main>
-		</AppContextProvider>
+		</Provider>
 	);
 };
