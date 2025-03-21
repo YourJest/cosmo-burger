@@ -5,8 +5,13 @@
 	align-items: center;
 	gap: calc(var(--offset-base-size) * 4);
 	height: 600px;
+	min-width: 500px;
+	&.dropHover {
+		border: 1px solid var(--colors-interface-accent);
+	}
 
 	.ingredients {
+		width: 600px;
 		display: flex;
 		flex-grow: 1;
 		flex-direction: column;

@@ -27,11 +27,8 @@ export const Modal = ({ children, title, onClose }: ModalProps) => {
 		}, []);
 
 		return (
-			<ModalOverlay onClick={onClose}>
-				<div
-					className={clsx('p-10', styles.modal)}
-					aria-hidden
-					onClick={(e) => e.stopPropagation()}>
+			<div className={clsx(styles.modalContainer)}>
+				<div className={clsx('p-10', styles.modal)}>
 					<div className={styles.header}>
 						<p className='text text_type_main-large'>{title}</p>
 						<CloseIcon
@@ -40,9 +37,10 @@ export const Modal = ({ children, title, onClose }: ModalProps) => {
 							type='primary'
 						/>
 					</div>
-					{children}
+					<div>{children}</div>
 				</div>
-			</ModalOverlay>
+				<ModalOverlay onClick={onClose} />
+			</div>
 		);
 	};
 

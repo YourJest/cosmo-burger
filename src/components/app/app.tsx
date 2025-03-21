@@ -5,14 +5,18 @@ import { BurgerConstructor } from '@components/burger-constructor/burger-constru
 import clsx from 'clsx';
 import { Provider } from 'react-redux';
 import { store } from '../../store';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 export const App = () => {
 	return (
 		<Provider store={store}>
 			<AppHeader />
 			<main className={clsx('pb-10', styles.constructorPage)}>
-				<BurgerIngredients />
-				<BurgerConstructor />
+				<DndProvider backend={HTML5Backend}>
+					<BurgerIngredients />
+					<BurgerConstructor />
+				</DndProvider>
 			</main>
 		</Provider>
 	);

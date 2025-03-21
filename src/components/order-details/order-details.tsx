@@ -4,11 +4,12 @@ import clsx from 'clsx';
 import { normaApi } from '@services/api/norma-api';
 import { WithLoader } from '@components/with-loader/with-loader';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store';
+import { ApplicationStore } from '../../store';
 
 export const OrderDetails = () => {
 	const ingredients = useSelector(
-		(store: RootState) => store.burgerConstructorReducer.constructorIngredients
+		(store: ApplicationStore) =>
+			store.burgerConstructorReducer.constructorIngredients
 	);
 	const { isFetching, isError, data } =
 		normaApi.endpoints.placeOrder.useQueryState({

@@ -3,47 +3,42 @@ import {
 	DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-filling.module.scss';
-import { WithLoader } from '@components/with-loader/with-loader';
-import { useGetAvailableIngredientsQuery } from '@services/api/norma-api';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../store';
+import { useSelector, useDispatch } from 'react-redux';
+import { AppDispatch, ApplicationStore } from '../../../store';
+import { useDrop } from 'react-dnd';
+import {
+	addIngredientToConstructor,
+	removeIngredientFromConstructor,
+} from '@services/slices/burger-constructor-slice';
+import clsx from 'clsx';
 
 export const BurgerFilling = () => {
-	const { isFetching: isLoadingIngredients, isError: hasErrorIngredients } =
-		useGetAvailableIngredientsQuery();
-
 	const { constructorIngredients } = useSelector(
-		(store: RootState) => store.burgerConstructorReducer
+		(store: ApplicationStore) => store.burgerConstructorReducer
 	);
+	const dispatch = useDispatch<AppDispatch>();
+
+	const [{ isHover }, dropRef] = useDrop({
+		accept: ['ingredient'],
+		drop: (item: { id: string }) => {
+			dispatch(addIngredientToConstructor(item.id));
+		},
+		collect: (monitor) => ({ isHover: monitor.isOver() }),
+	});
 
 	const ingredients = constructorIngredients.filter(
-		(ingridient) => ingridient.type !== 'bun'
+		(ingredient) => ingredient.type !== 'bun'
 	);
 
-	let bun = constructorIngredients?.find(
+	const bun = constructorIngredients?.find(
 		(ingredient) => ingredient.type === 'bun'
 	);
-	if (!bun) {
-		bun = {
-			_id: '-1',
-			name: 'Выберите булку',
-			type: 'bun',
-			proteins: 0,
-			fat: 0,
-			carbohydrates: 0,
-			calories: 0,
-			price: 0,
-			image: '',
-			image_mobile: '',
-			image_large: '',
-			__v: 0,
-		};
-	}
+
 	return (
-		<div className={styles.fillingWrapper}>
-			<WithLoader
-				isLoading={isLoadingIngredients}
-				hasError={hasErrorIngredients}>
+		<div
+			ref={dropRef}
+			className={clsx(styles.fillingWrapper, isHover && styles.dropHover)}>
+			{bun && (
 				<div className={'pl-8'}>
 					<ConstructorElement
 						price={bun.price}
@@ -54,18 +49,23 @@ export const BurgerFilling = () => {
 						isLocked
 					/>
 				</div>
-				<div className={styles.ingredients}>
-					{ingredients?.map((ingredient) => (
-						<div key={ingredient._id} className={styles.ingredient}>
-							<DragIcon type='primary' />
-							<ConstructorElement
-								price={ingredient.price}
-								text={ingredient.name}
-								thumbnail={ingredient.image}
-							/>
-						</div>
-					))}
-				</div>
+			)}
+			<div className={styles.ingredients}>
+				{ingredients?.map((ingredient) => (
+					<div key={ingredient._id} className={styles.ingredient}>
+						<DragIcon type='primary' />
+						<ConstructorElement
+							price={ingredient.price}
+							text={ingredient.name}
+							thumbnail={ingredient.image}
+							handleClose={() =>
+								dispatch(removeIngredientFromConstructor(ingredient._id))
+							}
+						/>
+					</div>
+				))}
+			</div>
+			{bun && (
 				<div className={'pl-8'}>
 					<ConstructorElement
 						price={bun.price}
@@ -75,7 +75,7 @@ export const BurgerFilling = () => {
 						isLocked
 					/>
 				</div>
-			</WithLoader>
+			)}
 		</div>
 	);
 };

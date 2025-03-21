@@ -3,30 +3,28 @@ import {
 	CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './ingredient-card.module.scss';
-import { useState } from 'react';
-import { Modal } from '@components/modal/modal';
-import { IngredientDetails } from '@components/ingredient-details/ingredient-details';
 import clsx from 'clsx';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../store';
+import { ApplicationStore } from '../../../store';
+import { useDrag } from 'react-dnd';
 
 interface IngredientCardProps {
 	id: string;
-	onClick?: () => void;
+	onClick?: (id: string) => void;
 	count: number;
 }
 
-export const IngredientCard = ({ id, count }: IngredientCardProps) => {
-	const [openIngredientDetails, setOpenIngredientDetails] = useState(false);
-	const ingredientInfo = useSelector((store: RootState) =>
+export const IngredientCard = ({ id, count, onClick }: IngredientCardProps) => {
+	const [{ opacity }, draggableRef] = useDrag({
+		type: 'ingredient',
+		item: { id },
+		collect: (monitor) => ({ opacity: monitor.isDragging() ? 0.5 : 1 }),
+	});
+	const ingredientInfo = useSelector((store: ApplicationStore) =>
 		store.burgerConstructorReducer.availableIngredients.find(
 			(ingredient) => ingredient._id === id
 		)
 	);
-
-	const toggleOpenIngredientsDetails = () => {
-		setOpenIngredientDetails(!openIngredientDetails);
-	};
 
 	if (!ingredientInfo) {
 		return null;
@@ -34,8 +32,10 @@ export const IngredientCard = ({ id, count }: IngredientCardProps) => {
 
 	return (
 		<button
+			ref={draggableRef}
+			style={{ opacity }}
 			className={styles.ingredientCard}
-			onClick={toggleOpenIngredientsDetails}>
+			onClick={() => onClick?.(ingredientInfo._id)}>
 			<img src={ingredientInfo.image} alt={ingredientInfo.name} />
 			<div className={styles.price}>
 				<p className='text text_type_digits-default'>{ingredientInfo.price}</p>
@@ -48,13 +48,6 @@ export const IngredientCard = ({ id, count }: IngredientCardProps) => {
 				<div className={styles.counter}>
 					<Counter count={count} />
 				</div>
-			)}
-			{openIngredientDetails && (
-				<Modal
-					title='Детали ингредиента'
-					onClose={toggleOpenIngredientsDetails}>
-					<IngredientDetails ingredientInfo={ingredientInfo} />
-				</Modal>
 			)}
 		</button>
 	);

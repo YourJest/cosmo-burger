@@ -1,3 +1,9 @@
+.withLoader {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
 .error {
 	color: var(--colors-interface-error);
 }

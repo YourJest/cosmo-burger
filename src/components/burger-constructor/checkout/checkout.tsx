@@ -9,18 +9,23 @@ import { useState } from 'react';
 import { OrderDetails } from '@components/order-details/order-details';
 import { useLazyPlaceOrderQuery } from '@services/api/norma-api';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../store';
+import { ApplicationStore } from '../../../store';
 
 export const Checkout = () => {
 	const [openOrderStatus, setOpenOrderStatus] = useState(false);
 	const order = useSelector(
-		(store: RootState) => store.burgerConstructorReducer.constructorIngredients
+		(store: ApplicationStore) =>
+			store.burgerConstructorReducer.constructorIngredients
 	);
 	const [trigger] = useLazyPlaceOrderQuery();
 
+	const toggleOpenOrderStatus = () => {
+		setOpenOrderStatus(!openOrderStatus);
+	};
+
 	const handlePlaceOrder = () => {
 		trigger({ ingredients: order.map((ingridient) => ingridient._id) });
-		setOpenOrderStatus(!openOrderStatus);
+		toggleOpenOrderStatus();
 	};
 
 	const totalPrice = 610;
@@ -34,7 +39,7 @@ export const Checkout = () => {
 				Оформить заказ
 			</Button>
 			{openOrderStatus && (
-				<Modal onClose={handlePlaceOrder}>
+				<Modal onClose={toggleOpenOrderStatus}>
 					<OrderDetails />
 				</Modal>
 			)}

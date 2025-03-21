@@ -16,12 +16,18 @@ export const WithLoader = ({
 }: WithLoaderProps) => {
 	let result;
 	if (isLoading) {
-		result = <RingLoader color='var(--colors-interface-accent)' />;
+		result = (
+			<div className={styles.withLoader}>
+				<RingLoader color='var(--colors-interface-accent)' />
+			</div>
+		);
 	} else if (!isLoading && hasError) {
 		result = (
-			<p className={clsx('text text_type_main-default', styles.error)}>
-				Ошибка!
-			</p>
+			<div className={styles.withLoader}>
+				<p className={clsx('text text_type_main-default', styles.error)}>
+					Ошибка!
+				</p>
+			</div>
 		);
 	} else {
 		result = children;
