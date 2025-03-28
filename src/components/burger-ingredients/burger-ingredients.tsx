@@ -3,16 +3,13 @@ import { useRef, useState } from 'react';
 import styles from './burger-ingredients.module.scss';
 import { IngredientList } from './ingredient-list/ingredient-list';
 import clsx from 'clsx';
+import { IngredientTabType } from '@utils/constant';
 
-enum IngredientTabType {
-	BUN = 'bun',
-	MAIN = 'main',
-	SAUCE = 'sauce',
-}
 export const BurgerIngredients = () => {
 	const [selectedTab, setSelectedTab] = useState<IngredientTabType>(
 		IngredientTabType.BUN
 	);
+	const tabsRef = useRef<HTMLDivElement>(null);
 	const bunsRef = useRef<HTMLDivElement>(null);
 	const sauceRef = useRef<HTMLDivElement>(null);
 	const mainRef = useRef<HTMLDivElement>(null);
@@ -35,7 +32,7 @@ export const BurgerIngredients = () => {
 	return (
 		<section className={clsx('pt-10', styles.burgerIngredients)}>
 			<h1 className='text text_type_main-large'>Соберите бургер</h1>
-			<div className={clsx('pr-4', styles.tabs)}>
+			<div className={clsx('pr-4', styles.tabs)} ref={tabsRef}>
 				<Tab
 					value={IngredientTabType.BUN}
 					active={selectedTab === IngredientTabType.BUN}
@@ -55,7 +52,13 @@ export const BurgerIngredients = () => {
 					Начинки
 				</Tab>
 			</div>
-			<IngredientList bunsRef={bunsRef} sauceRef={sauceRef} mainRef={mainRef} />
+			<IngredientList
+				bunsRef={bunsRef}
+				sauceRef={sauceRef}
+				mainRef={mainRef}
+				tabsRef={tabsRef}
+				onTabSelect={setSelectedTab}
+			/>
 		</section>
 	);
 };

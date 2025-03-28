@@ -1,17 +1,19 @@
 .modalContainer {
-	display: flex;
-	justify-content: center;
-	align-items: center;
 	position: fixed;
 	top: 0;
 	left: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	width: 100vw;
 	height: 100vh;
+
 	.modal {
+		z-index: 1;
 		width: 720px;
 		background-color: var(--background);
 		border-radius: 40px;
-		z-index: 1;
+
 		.header {
 			display: flex;
 			justify-content: space-between;
@@ -22,11 +24,12 @@
 			}
 		}
 	}
+
 	.modalOverlay {
-		z-index: 0;
 		position: fixed;
 		top: 0;
 		left: 0;
+		z-index: 0;
 		width: 100vw;
 		height: 100vh;
 		background-color: #00000060;

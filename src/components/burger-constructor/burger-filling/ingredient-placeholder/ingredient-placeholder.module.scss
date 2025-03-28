@@ -1,0 +1,28 @@
+.ingredientPlaceholder {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	box-sizing: border-box;
+	width: 100%;
+	max-width: 536px;
+	min-height: 80px;
+	padding: 16px 24px;
+	color: #f2f2f3;
+	background: var(--background-element);
+
+	&.dropHover {
+		border: 1px solid var(--colors-interface-accent);
+	}
+
+	&.top {
+		border-radius: var(--top-constructor-item-border-radius);
+	}
+
+	&.main {
+		border-radius: var(--common-border-radius-s);
+	}
+
+	&.bottom {
+		border-radius: var(--bottom-constructor-item-border-radius);
+	}
+}

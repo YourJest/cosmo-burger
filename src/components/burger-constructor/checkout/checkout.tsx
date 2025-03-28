@@ -7,28 +7,28 @@ import clsx from 'clsx';
 import { Modal } from '@components/modal/modal';
 import { useState } from 'react';
 import { OrderDetails } from '@components/order-details/order-details';
-import { useLazyPlaceOrderQuery } from '@services/api/norma-api';
+import { usePlaceOrderMutation } from '@services/norma/api';
 import { useSelector } from 'react-redux';
-import { ApplicationStore } from '../../../store';
+import {
+	getOrder,
+	getTotalPrice,
+} from '@services/burger-constructor/selectors';
 
 export const Checkout = () => {
 	const [openOrderStatus, setOpenOrderStatus] = useState(false);
-	const order = useSelector(
-		(store: ApplicationStore) =>
-			store.burgerConstructorReducer.constructorIngredients
-	);
-	const [trigger] = useLazyPlaceOrderQuery();
+	const order = useSelector(getOrder);
+	const totalPrice = useSelector(getTotalPrice);
+	const [trigger] = usePlaceOrderMutation({ fixedCacheKey: 'place-order' });
 
 	const toggleOpenOrderStatus = () => {
 		setOpenOrderStatus(!openOrderStatus);
 	};
 
 	const handlePlaceOrder = () => {
-		trigger({ ingredients: order.map((ingridient) => ingridient._id) });
+		trigger({ ingredients: order as string[] });
 		toggleOpenOrderStatus();
 	};
 
-	const totalPrice = 610;
 	return (
 		<div className={clsx('pl-5 pr-5', styles.checkout)}>
 			<div className={styles.totalPrice}>

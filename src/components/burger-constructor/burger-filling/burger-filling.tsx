@@ -1,80 +1,48 @@
-import {
-	ConstructorElement,
-	DragIcon,
-} from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-filling.module.scss';
-import { useSelector, useDispatch } from 'react-redux';
-import { AppDispatch, ApplicationStore } from '../../../store';
-import { useDrop } from 'react-dnd';
-import {
-	addIngredientToConstructor,
-	removeIngredientFromConstructor,
-} from '@services/slices/burger-constructor-slice';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store';
+import { getBun, getIngredients } from '@services/burger-constructor/slice';
 import clsx from 'clsx';
+import { ConstructorIngredient } from '../constructor-ingredient/constructor-ingredient';
+import { IngredientPlaceholder } from './ingredient-placeholder/ingredient-placeholder';
+import { ConstructorBun } from '../constructor-bun/constructor-bun';
 
 export const BurgerFilling = () => {
-	const { constructorIngredients } = useSelector(
-		(store: ApplicationStore) => store.burgerConstructorReducer
+	const constructorIngredients = useSelector((state: RootState) =>
+		getIngredients(state.burgerConstructor)
 	);
-	const dispatch = useDispatch<AppDispatch>();
+	const bun = useSelector((state: RootState) =>
+		getBun(state.burgerConstructor)
+	);
 
-	const [{ isHover }, dropRef] = useDrop({
-		accept: ['ingredient'],
-		drop: (item: { id: string }) => {
-			dispatch(addIngredientToConstructor(item.id));
-		},
-		collect: (monitor) => ({ isHover: monitor.isOver() }),
-	});
-
-	const ingredients = constructorIngredients.filter(
+	const ingredients = constructorIngredients?.filter(
 		(ingredient) => ingredient.type !== 'bun'
 	);
 
-	const bun = constructorIngredients?.find(
-		(ingredient) => ingredient.type === 'bun'
-	);
-
 	return (
-		<div
-			ref={dropRef}
-			className={clsx(styles.fillingWrapper, isHover && styles.dropHover)}>
-			{bun && (
-				<div className={'pl-8'}>
-					<ConstructorElement
-						price={bun.price}
-						text={`${bun.name} (верх)`}
-						thumbnail={bun.image}
-						type='top'
-						extraClass={styles.bun}
-						isLocked
-					/>
-				</div>
+		<div className={clsx(styles.fillingWrapper)}>
+			{bun ? (
+				<ConstructorBun bun={bun} type='top' />
+			) : (
+				<IngredientPlaceholder type='top' text='Выберите булку' />
 			)}
 			<div className={styles.ingredients}>
-				{ingredients?.map((ingredient) => (
-					<div key={ingredient._id} className={styles.ingredient}>
-						<DragIcon type='primary' />
-						<ConstructorElement
-							price={ingredient.price}
-							text={ingredient.name}
-							thumbnail={ingredient.image}
-							handleClose={() =>
-								dispatch(removeIngredientFromConstructor(ingredient._id))
-							}
+				{ingredients.length > 0 ? (
+					ingredients.map((ingredient, idx) => (
+						<ConstructorIngredient
+							key={ingredient.constructorId}
+							index={idx}
+							ingredient={ingredient}
 						/>
-					</div>
-				))}
+					))
+				) : (
+					<IngredientPlaceholder type='main' text='Выберите ингредиенты' />
+				)}
 			</div>
-			{bun && (
-				<div className={'pl-8'}>
-					<ConstructorElement
-						price={bun.price}
-						text={`${bun.name} (низ)`}
-						thumbnail={bun.image}
-						type='bottom'
-						isLocked
-					/>
-				</div>
+			{bun ? (
+				<ConstructorBun bun={bun} type='bottom' />
+			) : (
+				<IngredientPlaceholder type='bottom' text='Выберите булку' />
 			)}
 		</div>
 	);

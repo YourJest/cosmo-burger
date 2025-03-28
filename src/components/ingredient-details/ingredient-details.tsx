@@ -1,4 +1,4 @@
-import { IngredientEntry } from '@services/slices/burger-constructor-slice';
+import { IngredientEntry } from '@services/burger-constructor/slice';
 import styles from './ingredient-details.module.scss';
 import clsx from 'clsx';
 

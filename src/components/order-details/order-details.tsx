@@ -1,23 +1,16 @@
 import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './order-details.module.scss';
 import clsx from 'clsx';
-import { normaApi } from '@services/api/norma-api';
+import { usePlaceOrderMutation } from '@services/norma/api';
 import { WithLoader } from '@components/with-loader/with-loader';
-import { useSelector } from 'react-redux';
-import { ApplicationStore } from '../../store';
 
 export const OrderDetails = () => {
-	const ingredients = useSelector(
-		(store: ApplicationStore) =>
-			store.burgerConstructorReducer.constructorIngredients
-	);
-	const { isFetching, isError, data } =
-		normaApi.endpoints.placeOrder.useQueryState({
-			ingredients: ingredients.map((ingredient) => ingredient._id),
-		});
+	const [, { isLoading, isError, data }] = usePlaceOrderMutation({
+		fixedCacheKey: 'place-order',
+	});
 
 	return (
-		<WithLoader isLoading={isFetching} hasError={isError}>
+		<WithLoader isLoading={isLoading} hasError={isError}>
 			<div className={clsx('pt-5 pb-5', styles.orderDetails)}>
 				<div className={styles.orderId}>
 					<p

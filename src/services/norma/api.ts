@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { IngredientEntry } from '@services/slices/burger-constructor-slice';
+import { IngredientEntry } from '@services/burger-constructor/slice';
 
 interface IngredientsResponse {
 	data: IngredientEntry[];
@@ -28,11 +28,11 @@ export const normaApi = createApi({
 			query: () => '/ingredients',
 			transformResponse: (response: IngredientsResponse) => response.data,
 		}),
-		placeOrder: builder.query<PlaceOrderResponse, PlaceOrderRequest>({
+		placeOrder: builder.mutation<PlaceOrderResponse, PlaceOrderRequest>({
 			query: (body) => ({ url: '/orders', method: 'POST', body }),
 		}),
 	}),
 });
 
-export const { useGetAvailableIngredientsQuery, useLazyPlaceOrderQuery } =
+export const { useGetAvailableIngredientsQuery, usePlaceOrderMutation } =
 	normaApi;

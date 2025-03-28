@@ -1,15 +1,19 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { normaApi } from '@services/api/norma-api';
-import burgerConstructorReducer from '@services/slices/burger-constructor-slice';
+import { combineSlices, configureStore } from '@reduxjs/toolkit';
+import { normaApi } from '@services/norma/api';
+import { burgerConstructorSlice } from '@services/burger-constructor/slice';
+import { selectedIngredientSlice } from '@services/selected-ingredient/slice';
+
+const rootReducer = combineSlices(
+	burgerConstructorSlice,
+	selectedIngredientSlice,
+	normaApi
+);
 
 export const store = configureStore({
-	reducer: {
-		[normaApi.reducerPath]: normaApi.reducer,
-		burgerConstructorReducer,
-	},
+	reducer: rootReducer,
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware().concat(normaApi.middleware),
 });
 
-export type ApplicationStore = ReturnType<typeof store.getState>;
+export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
