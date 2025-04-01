@@ -1,18 +1,23 @@
 import { AppHeader } from '@components/app-header/app-header';
-import { BurgerIngridients } from '@components/burger-ingridients/burger-ingridients';
+import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients';
 import styles from './app.module.scss';
 import { BurgerConstructor } from '@components/burger-constructor/burger-constructor';
 import clsx from 'clsx';
-import { AppContextProvider } from '@components/context/app-context';
+import { Provider } from 'react-redux';
+import { store } from '../../store';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 export const App = () => {
 	return (
-		<AppContextProvider>
+		<Provider store={store}>
 			<AppHeader />
 			<main className={clsx('pb-10', styles.constructorPage)}>
-				<BurgerIngridients />
-				<BurgerConstructor />
+				<DndProvider backend={HTML5Backend}>
+					<BurgerIngredients />
+					<BurgerConstructor />
+				</DndProvider>
 			</main>
-		</AppContextProvider>
+		</Provider>
 	);
 };

@@ -4,22 +4,17 @@
 	flex-direction: column;
 	align-items: center;
 	gap: calc(var(--offset-base-size) * 4);
+	min-width: 500px;
 	height: 600px;
 
-	.ingridients {
+	.ingredients {
 		display: flex;
 		flex-grow: 1;
 		flex-direction: column;
 		align-items: center;
 		gap: calc(var(--offset-base-size) * 4);
+		width: 600px;
 		overflow: auto;
 		scrollbar-gutter: stable both-edges;
-
-		.ingridient {
-			display: flex;
-			align-items: center;
-			gap: calc(var(--offset-base-size) * 2);
-			width: 100%;
-		}
 	}
 }
