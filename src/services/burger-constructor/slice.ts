@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { normaApi } from '@services/norma/api';
 
 export interface IngredientEntry {
 	_id: string;
@@ -63,6 +64,15 @@ export const burgerConstructorSlice = createSlice({
 			ingredients.splice(toIndex, 0, ingredients.splice(fromIndex, 1)[0]);
 			state.constructorIngredients = ingredients;
 		},
+	},
+	extraReducers: (builder) => {
+		builder.addMatcher(
+			normaApi.endpoints.placeOrder.matchFulfilled,
+			(state) => {
+				state.constructorIngredients = [];
+				state.bun = null;
+			}
+		);
 	},
 	selectors: {
 		getBun: (state) => state.bun,
