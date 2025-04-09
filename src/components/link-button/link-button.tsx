@@ -1,30 +1,33 @@
-import { AnchorHTMLAttributes, PropsWithChildren, ReactElement } from 'react';
+import { ComponentProps, PropsWithChildren, ReactElement } from 'react';
 import clsx from 'clsx';
 import linkStyles from './link-button.module.scss';
+import { Link } from 'react-router-dom';
 
 interface LinkButtonProps
-	extends PropsWithChildren<AnchorHTMLAttributes<HTMLAnchorElement>> {
+	extends PropsWithChildren<ComponentProps<typeof Link>> {
 	logo?: ReactElement;
 	active: boolean;
 }
 
 export const LinkButton = ({
 	logo,
-	href = '/#',
+	to = '/#',
 	active,
 	children,
+	...props
 }: LinkButtonProps) => {
 	return (
-		<a
-			href={href}
+		<Link
+			to={to}
 			className={clsx(
 				'text text_type_main-default',
 				!active && 'text_color_inactive',
 				'pb-4 pt-4 pl-5 pr-5',
 				linkStyles.linkButton
-			)}>
+			)}
+			{...props}>
 			{logo}
 			{children}
-		</a>
+		</Link>
 	);
 };

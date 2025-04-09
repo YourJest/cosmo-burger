@@ -1,0 +1,12 @@
+.profileEdit {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 24px;
+
+	.buttonsBlock {
+		display: flex;
+		flex-direction: row;
+		align-self: flex-end;
+	}
+}
