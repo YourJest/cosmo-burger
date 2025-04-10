@@ -1,46 +1,42 @@
 import { Pages } from '@utils/constant';
 import { useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router-dom';
-import { RootState } from '../../store';
-import { useGetUserQuery } from '@services/norma/auth-api';
+import { getUser } from '@services/user/slice';
+import { useGetUserQuery, useLogoutMutation } from '@services/norma/auth-api';
+import { WithLoader } from '@components/with-loader/with-loader';
 
 interface ProtectedRouteElementProps {
+	forAuthorized?: boolean;
 	element: JSX.Element;
 }
 
-const onlyAuthorizedPath: string[] = [Pages.PROFILE, Pages.ORDER_HISTORY];
-
-const onlyUnauthorizedPath: string[] = [
-	Pages.LOGIN,
-	Pages.REGISTER,
-	Pages.FORGOT_PASSWORD,
-	Pages.RESTORE_PASSWORD,
-];
-
 export const ProtectedRouteElement = ({
+	forAuthorized = true,
 	element,
 }: ProtectedRouteElementProps) => {
-	const { pathname } = useLocation();
+	const location = useLocation();
+	const user = useSelector(getUser);
 	const { isFetching } = useGetUserQuery();
-	const user = useSelector((state: RootState) => state.user);
-	if (isFetching) {
-		return element;
+	const [, { isLoading: logoutInProcess }] = useLogoutMutation({
+		fixedCacheKey: 'logout',
+	});
+
+	if (logoutInProcess || isFetching) {
+		return <WithLoader isLoading hasError={false} />;
 	}
-	if (pathname === Pages.HOME) {
-		return element;
+
+	if (!user && forAuthorized) {
+		const from = location;
+		return <Navigate to={Pages.LOGIN} state={{ from }} />;
 	}
-	if (user.email && onlyAuthorizedPath.includes(pathname)) {
-		return element;
+	if (user && !forAuthorized) {
+		const state = location.state?.from ?? { pathname: Pages.HOME };
+		return <Navigate to={state.pathname} />;
 	}
-	if (!user.email && onlyAuthorizedPath.includes(pathname)) {
-		return <Navigate to={Pages.LOGIN} replace />;
-	}
-	if (!user.email && onlyUnauthorizedPath.includes(pathname)) {
-		return element;
-	}
-	if (user.email && onlyUnauthorizedPath.includes(pathname)) {
-		return <Navigate to={Pages.HOME} replace />;
-	}
-	console.log('wtf?');
-	return null;
+	return element;
 };
+
+export const AuthorizedRoute = ProtectedRouteElement;
+export const UnauthorizedRoute = ({ element }: ProtectedRouteElementProps) => (
+	<ProtectedRouteElement forAuthorized={false} element={element} />
+);

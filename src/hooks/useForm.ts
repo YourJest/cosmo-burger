@@ -6,5 +6,9 @@ export const useForm = <FormFields>(initialState: FormFields) => {
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setFields({ ...fields, [e.target.name]: e.target.value });
 	};
-	return { fields, handleChange };
+
+	const resetForm = () => {
+		setFields(initialState);
+	};
+	return { fields, handleChange, resetForm };
 };

@@ -58,5 +58,9 @@ export const baseQueryWithReauth: BaseQueryFn<
 			result = await baseQuery(args, store, extraOptions);
 		}
 	}
+	if ((result.error?.data as TokenErrorResponse)?.message === 'invalid token') {
+		localStorage.removeItem('accessToken');
+		localStorage.removeItem('refreshToken');
+	}
 	return result;
 };

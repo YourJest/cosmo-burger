@@ -1,13 +1,10 @@
 .registerPage {
-	position: absolute;
-	top: 50%;
-	left: 50%;
 	display: flex;
+	flex: 100%;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	gap: 80px;
-	transform: translate(-50%, -50%);
 
 	.registerForm {
 		display: flex;

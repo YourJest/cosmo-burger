@@ -5,7 +5,7 @@ import {
 import styles from './restore-password.module.scss';
 import { useForm } from '../../hooks/useForm';
 import { FormEvent, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import { Pages } from '@utils/constant';
 import { useResetPasswordMutation } from '@services/norma/auth-api';
@@ -16,6 +16,8 @@ interface RestorePasswordForm {
 }
 
 export const RestorePasswordPage = () => {
+	const navigate = useNavigate();
+
 	const { fields, handleChange } = useForm<RestorePasswordForm>({
 		password: '',
 		token: '',
@@ -26,8 +28,14 @@ export const RestorePasswordPage = () => {
 
 	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		triggerRestorePassword(fields);
+		triggerRestorePassword(fields).then(() => {
+			navigate(Pages.LOGIN);
+		});
 	};
+
+	if (!localStorage.getItem('resetPasswordRequested')) {
+		return <Navigate to={Pages.FORGOT_PASSWORD} />;
+	}
 
 	return (
 		<main className={styles.restorePasswordPage}>

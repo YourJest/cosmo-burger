@@ -13,19 +13,34 @@ import {
 	getOrder,
 	getTotalPrice,
 } from '@services/burger-constructor/selectors';
+import { getUser } from '@services/user/slice';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Pages } from '@utils/constant';
 
 export const Checkout = () => {
-	const [openOrderStatus, setOpenOrderStatus] = useState(false);
+	const navigate = useNavigate();
+	const location = useLocation();
+
 	const order = useSelector(getOrder);
 	const totalPrice = useSelector(getTotalPrice);
-	const [trigger] = usePlaceOrderMutation({ fixedCacheKey: 'place-order' });
+	const user = useSelector(getUser);
+
+	const [triggerPlaceOrder] = usePlaceOrderMutation({
+		fixedCacheKey: 'place-order',
+	});
+
+	const [openOrderStatus, setOpenOrderStatus] = useState(false);
 
 	const toggleOpenOrderStatus = () => {
 		setOpenOrderStatus(!openOrderStatus);
 	};
 
 	const handlePlaceOrder = () => {
-		trigger({ ingredients: order as string[] });
+		if (!user) {
+			navigate(Pages.LOGIN, { state: { from: location } });
+			return;
+		}
+		triggerPlaceOrder({ ingredients: order });
 		toggleOpenOrderStatus();
 	};
 

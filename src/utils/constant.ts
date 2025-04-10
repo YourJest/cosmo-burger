@@ -17,5 +17,6 @@ export enum Pages {
 	RESTORE_PASSWORD = '/restore-password',
 	ORDER_FEED = '/order-feed',
 	PROFILE = '/profile',
-	ORDER_HISTORY = '/profile/order-history',
+	PROFILE_ORDERS = '/profile/orders',
+	INGREDIENTS = '/ingredients/:ingredientId',
 }

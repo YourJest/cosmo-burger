@@ -11,6 +11,8 @@ interface RegisterRequest {
 	password: string;
 }
 
+type UpdateUserRequest = Partial<RegisterRequest>;
+
 interface ForgotPasswordRequest {
 	email: string;
 }
@@ -113,14 +115,18 @@ export const authApi = normaApi.injectEndpoints({
 		getUser: builder.query<UserResponse, void>({
 			query: () => ({ url: '/auth/user', method: 'GET' }),
 		}),
+		updateUser: builder.mutation<UserResponse, UpdateUserRequest>({
+			query: (body) => ({ url: '/auth/user', method: 'PATCH', body }),
+		}),
 	}),
 });
 
 export const {
-	useGetUserQuery,
 	useForgotPasswordMutation,
 	useResetPasswordMutation,
 	useLoginMutation,
 	useRegisterMutation,
 	useLogoutMutation,
+	useGetUserQuery,
+	useUpdateUserMutation,
 } = authApi;

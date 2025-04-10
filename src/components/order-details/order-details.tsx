@@ -10,7 +10,10 @@ export const OrderDetails = () => {
 	});
 
 	return (
-		<WithLoader isLoading={isLoading} hasError={isError}>
+		<WithLoader
+			isLoading={isLoading}
+			hasError={isError}
+			loadingMessage='Ваш заказ формируется'>
 			<div className={clsx('pt-5 pb-5', styles.orderDetails)}>
 				<div className={styles.orderId}>
 					<p

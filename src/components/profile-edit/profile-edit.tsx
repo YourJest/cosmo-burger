@@ -3,10 +3,11 @@ import {
 	Input,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './profile.edit.module.scss';
-import { FormEvent } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import { useForm } from '../../hooks/useForm';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store';
+import { getUser } from '@services/user/slice';
+import { useUpdateUserMutation } from '@services/norma/auth-api';
 
 interface ProfileEditForm {
 	name: string;
@@ -15,49 +16,127 @@ interface ProfileEditForm {
 }
 
 export const ProfileEdit = () => {
-	const user = useSelector((state: RootState) => state.user);
-	const { fields, handleChange } = useForm<ProfileEditForm>({
-		name: user.name ?? '',
-		email: user.email ?? '',
+	const user = useSelector(getUser);
+	const [triggerUserUpdate] = useUpdateUserMutation();
+	const { fields, handleChange, resetForm } = useForm<ProfileEditForm>({
+		name: user?.name ?? '',
+		email: user?.email ?? '',
 		password: '',
 	});
 
+	const nameRef = useRef<HTMLInputElement>(null);
+	const emailRef = useRef<HTMLInputElement>(null);
+	const passwordRef = useRef<HTMLInputElement>(null);
+
+	const [editingField, setEditingField] = useState<
+		keyof ProfileEditForm | null
+	>(null);
+	const [showPassword, setShowPassword] = useState(false);
+
+	const isUserChanged =
+		user?.name !== fields.name ||
+		user.email !== fields.email ||
+		fields.password !== '';
+
+	const handleResetForm = () => {
+		setEditingField(null);
+		resetForm();
+	};
+
 	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		const updatedFields: Partial<ProfileEditForm> = {};
+		if (fields.name !== user?.name) {
+			updatedFields.name = fields.name;
+		}
+		if (fields.email !== user?.email) {
+			updatedFields.email = fields.email;
+		}
+		if (fields.password !== '') {
+			updatedFields.password = fields.password;
+		}
+		triggerUserUpdate(updatedFields);
+		setEditingField(null);
 	};
+
+	useEffect(() => {
+		switch (editingField) {
+			case 'email':
+				emailRef.current?.focus();
+			case 'name':
+				nameRef.current?.focus();
+				break;
+			case 'password':
+				passwordRef.current?.focus();
+				break;
+			default:
+				break;
+		}
+		if (editingField !== 'password') {
+			setShowPassword(false);
+		}
+	}, [editingField]);
+
 	return (
 		<form className={styles.profileEdit} onSubmit={handleSubmit}>
 			<Input
+				ref={nameRef}
 				name='name'
 				type='text'
 				placeholder='Имя'
+				disabled={editingField !== 'name'}
 				icon={'EditIcon'}
+				onIconClick={() => {
+					setEditingField(editingField === 'name' ? null : 'name');
+				}}
 				value={fields.name}
 				onChange={handleChange}
 			/>
 			<Input
+				ref={emailRef}
 				name='email'
 				type='email'
 				placeholder='E-mail'
+				disabled={editingField !== 'email'}
 				icon={'EditIcon'}
+				onIconClick={() => {
+					setEditingField(editingField === 'email' ? null : 'email');
+				}}
 				value={fields.email}
 				onChange={handleChange}
 			/>
 			<Input
+				ref={passwordRef}
 				name='password'
-				type={'password'}
+				type={showPassword ? 'text' : 'password'}
 				placeholder='Пароль'
-				icon={'EditIcon'}
+				disabled={editingField !== 'password'}
+				icon={
+					editingField !== 'password'
+						? 'EditIcon'
+						: showPassword
+						? 'HideIcon'
+						: 'ShowIcon'
+				}
+				onIconClick={() => {
+					if (editingField !== 'password') {
+						setEditingField('password');
+					} else {
+						setShowPassword(!showPassword);
+					}
+				}}
 				spellCheck={false}
 				value={fields.password}
 				onChange={handleChange}
 			/>
-			<div className={styles.buttonsBlock}>
-				<Button htmlType='reset' type='secondary'>
-					Отмена
-				</Button>
-				<Button htmlType='submit'>Сохранить</Button>
-			</div>
+			{isUserChanged && (
+				<div className={styles.buttonsBlock}>
+					<Button htmlType='reset' type='secondary' onClick={handleResetForm}>
+						Отмена
+					</Button>
+					<Button htmlType='submit'>Сохранить</Button>
+				</div>
+			)}
 		</form>
 	);
 };

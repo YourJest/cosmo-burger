@@ -5,7 +5,7 @@ import {
 import styles from './forgot-password.module.scss';
 import { useForm } from '../../hooks/useForm';
 import { FormEvent } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import { Pages } from '@utils/constant';
 import { useForgotPasswordMutation } from '@services/norma/auth-api';
@@ -15,6 +15,7 @@ interface ForgotPasswordForm {
 }
 
 export const ForgotPasswordPage = () => {
+	const navigate = useNavigate();
 	const { fields, handleChange } = useForm<ForgotPasswordForm>({
 		email: '',
 	});
@@ -22,7 +23,9 @@ export const ForgotPasswordPage = () => {
 
 	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		triggerForgotPassword(fields);
+		triggerForgotPassword(fields).then(() => {
+			navigate(Pages.RESTORE_PASSWORD);
+		});
 	};
 
 	return (

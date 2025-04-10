@@ -1,15 +1,9 @@
 import { combineSlices, configureStore } from '@reduxjs/toolkit';
 import { normaApi } from '@services/norma/api';
 import { burgerConstructorSlice } from '@services/burger-constructor/slice';
-import { selectedIngredientSlice } from '@services/selected-ingredient/slice';
 import { userSlice } from '@services/user/slice';
 
-const rootReducer = combineSlices(
-	burgerConstructorSlice,
-	selectedIngredientSlice,
-	userSlice,
-	normaApi
-);
+const rootReducer = combineSlices(burgerConstructorSlice, userSlice, normaApi);
 
 export const store = configureStore({
 	reducer: rootReducer,

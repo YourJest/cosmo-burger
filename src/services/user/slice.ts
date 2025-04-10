@@ -2,13 +2,14 @@ import { createSlice } from '@reduxjs/toolkit';
 import { authApi } from '@services/norma/auth-api';
 
 interface UserState {
-	email: string | null;
-	name: string | null;
+	user: {
+		email: string | null;
+		name: string | null;
+	} | null;
 }
 
 const initialState: UserState = {
-	email: null,
-	name: null,
+	user: null,
 };
 
 export const userSlice = createSlice({
@@ -16,38 +17,41 @@ export const userSlice = createSlice({
 	initialState,
 	reducers: {},
 	selectors: {
-		getName: (store) => store.name,
+		getName: (store) => store.user?.name,
+		getUser: (store) => store.user,
 	},
 	extraReducers: (builder) => ({
 		login: builder.addMatcher(
 			authApi.endpoints.login.matchFulfilled,
 			(state, action) => {
-				state.email = action.payload.user.email;
-				state.name = action.payload.user.name;
+				state.user = action.payload.user;
 			}
 		),
 		logout: builder.addMatcher(
-			authApi.endpoints.logout.matchFulfilled,
+			authApi.endpoints.logout.matchPending,
 			(state) => {
-				state.email = null;
-				state.name = null;
+				state.user = null;
 			}
 		),
 		register: builder.addMatcher(
 			authApi.endpoints.register.matchFulfilled,
 			(state, action) => {
-				state.email = action.payload.user.email;
-				state.name = action.payload.user.name;
+				state.user = action.payload.user;
 			}
 		),
 		getUser: builder.addMatcher(
 			authApi.endpoints.getUser.matchFulfilled,
 			(state, action) => {
-				state.email = action.payload.user.email;
-				state.name = action.payload.user.name;
+				state.user = action.payload.user;
+			}
+		),
+		updateUser: builder.addMatcher(
+			authApi.endpoints.updateUser.matchFulfilled,
+			(state, action) => {
+				state.user = action.payload.user;
 			}
 		),
 	}),
 });
 
-export const { getName } = userSlice.selectors;
+export const { getName, getUser } = userSlice.selectors;
