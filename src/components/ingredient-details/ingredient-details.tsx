@@ -1,16 +1,24 @@
-import { IngredientEntry } from '@services/burger-constructor/slice';
+import { useSelector } from 'react-redux';
 import styles from './ingredient-details.module.scss';
 import clsx from 'clsx';
+import { useParams } from 'react-router-dom';
+import { getIngredientById } from '@services/norma/selectors';
+import { RootState } from '../../store';
 
-interface IngredientDetailsProps {
-	ingredientInfo: IngredientEntry;
-}
+export const IngredientDetails = () => {
+	const { ingredientId } = useParams();
+	const ingredientInfo = useSelector((state: RootState) =>
+		getIngredientById(state, ingredientId ?? '')
+	);
 
-export const IngredientDetails = ({
-	ingredientInfo,
-}: IngredientDetailsProps) => {
+	if (!ingredientInfo) {
+		return null;
+	}
+
 	return (
 		<div className={styles.ingredientDetails}>
+			<p className='text text_type_main-large'>Детали ингредиента</p>
+
 			<img src={ingredientInfo.image_large} alt={ingredientInfo.name} />
 			<div className={styles.nameAndDetails}>
 				<p className='text text_type_main-default'>{ingredientInfo.name}</p>

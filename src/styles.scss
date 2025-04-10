@@ -10,3 +10,14 @@ p {
 button {
 	all: unset;
 }
+
+html,
+body {
+	height: 100%;
+}
+
+#root {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}

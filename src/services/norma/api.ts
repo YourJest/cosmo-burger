@@ -1,9 +1,14 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
 import { IngredientEntry } from '@services/burger-constructor/slice';
+import { baseQueryWithReauth } from './utils';
 
 interface IngredientsResponse {
 	data: IngredientEntry[];
 	success: boolean;
+}
+
+interface PlaceOrderRequest {
+	ingredients: string[];
 }
 
 interface PlaceOrderResponse {
@@ -14,22 +19,20 @@ interface PlaceOrderResponse {
 	success: boolean;
 }
 
-interface PlaceOrderRequest {
-	ingredients: string[];
-}
-
 export const normaApi = createApi({
 	reducerPath: 'normaApi',
-	baseQuery: fetchBaseQuery({
-		baseUrl: 'https://norma.nomoreparties.space/api/',
-	}),
+	baseQuery: baseQueryWithReauth,
 	endpoints: (builder) => ({
 		getAvailableIngredients: builder.query<IngredientEntry[], void>({
 			query: () => '/ingredients',
 			transformResponse: (response: IngredientsResponse) => response.data,
 		}),
 		placeOrder: builder.mutation<PlaceOrderResponse, PlaceOrderRequest>({
-			query: (body) => ({ url: '/orders', method: 'POST', body }),
+			query: (body) => ({
+				url: '/orders',
+				method: 'POST',
+				body,
+			}),
 		}),
 	}),
 });
