@@ -1,9 +1,9 @@
 import { Pages } from '@utils/constant';
-import { useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router-dom';
 import { getUser } from '@services/user/slice';
 import { useGetUserQuery, useLogoutMutation } from '@services/norma/auth-api';
 import { WithLoader } from '@components/with-loader/with-loader';
+import { useAppSelector } from '@components/app/hooks';
 
 interface ProtectedRouteElementProps {
 	forAuthorized?: boolean;
@@ -15,7 +15,7 @@ export const ProtectedRouteElement = ({
 	element,
 }: ProtectedRouteElementProps) => {
 	const location = useLocation();
-	const user = useSelector(getUser);
+	const user = useAppSelector(getUser);
 	const { isFetching } = useGetUserQuery();
 	const [, { isLoading: logoutInProcess }] = useLogoutMutation({
 		fixedCacheKey: 'logout',

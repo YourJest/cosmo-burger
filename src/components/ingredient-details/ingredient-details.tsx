@@ -1,13 +1,12 @@
-import { useSelector } from 'react-redux';
 import styles from './ingredient-details.module.scss';
 import clsx from 'clsx';
 import { useParams } from 'react-router-dom';
 import { getIngredientById } from '@services/norma/selectors';
-import { RootState } from '../../store';
+import { useAppSelector } from '@components/app/hooks';
 
 export const IngredientDetails = () => {
 	const { ingredientId } = useParams();
-	const ingredientInfo = useSelector((state: RootState) =>
+	const ingredientInfo = useAppSelector((state) =>
 		getIngredientById(state, ingredientId ?? '')
 	);
 

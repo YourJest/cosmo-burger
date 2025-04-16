@@ -8,12 +8,12 @@ import styles from './app-header.module.scss';
 import { LinkButton } from '@components/link-button/link-button';
 import clsx from 'clsx';
 import { Pages } from '@utils/constant';
-import { useSelector } from 'react-redux';
 import { getName } from '@services/user/slice';
 import { Link } from 'react-router-dom';
+import { useAppSelector } from '@components/app/hooks';
 
 export const AppHeader = () => {
-	const name = useSelector(getName);
+	const name = useAppSelector(getName);
 	return (
 		<header className={clsx('p-2', styles.header)}>
 			<nav className={styles.navigation}>

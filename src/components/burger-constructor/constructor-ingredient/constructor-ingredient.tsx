@@ -2,7 +2,6 @@ import {
 	ConstructorElement,
 	DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch } from 'react-redux';
 import {
 	addIngredientToConstructor,
 	ConstructorEntry,
@@ -13,6 +12,7 @@ import styles from './constructor-ingredient.module.scss';
 import { useDrag, useDrop, XYCoord } from 'react-dnd';
 import { DraggableIngredientType } from '@utils/constant';
 import { useRef } from 'react';
+import { useAppDispatch } from '@components/app/hooks';
 
 interface ConstructorIngredientProps {
 	ingredient: ConstructorEntry;
@@ -27,7 +27,7 @@ export const ConstructorIngredient = ({
 	ingredient,
 	index,
 }: ConstructorIngredientProps) => {
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	const ref = useRef<HTMLDivElement>(null);
 	const [{ handlerId }, drop] = useDrop<
 		EntryWithIndex,

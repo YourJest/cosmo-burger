@@ -97,4 +97,4 @@ export const {
 } = burgerConstructorSlice.actions;
 
 export const { getBun, getIngredients, getIngredientCount } =
-	burgerConstructorSlice.getSelectors();
+	burgerConstructorSlice.selectors;
