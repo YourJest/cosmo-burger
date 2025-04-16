@@ -5,14 +5,9 @@ import { IngredientCategory } from '../ingredient-category/ingredient-category';
 
 import { WithLoader } from '@components/with-loader/with-loader';
 import { useGetAvailableIngredientsQuery } from '@services/norma/api';
-import { Modal } from '@components/modal/modal';
-import { IngredientDetails } from '@components/ingredient-details/ingredient-details';
 import { IngredientTabType } from '@utils/constant';
-import { useSelector, useDispatch } from 'react-redux';
-import {
-	getSelectedIngredient,
-	setSelectedIngredient,
-} from '@services/selected-ingredient/slice';
+import { useSelector } from 'react-redux';
+import { getAllIngredients } from '@services/norma/selectors';
 
 interface IngredientListProps {
 	bunsRef: RefObject<HTMLDivElement>;
@@ -35,18 +30,12 @@ export const IngredientList = ({
 	tabsRef,
 	onTabSelect,
 }: IngredientListProps) => {
-	const {
-		isFetching: isLoadingIngredients,
-		isError: hasErrorIngredients,
-		data: ingredientsData,
-	} = useGetAvailableIngredientsQuery();
-	const dispatch = useDispatch();
-	const selectedIngredientInfo = useSelector(getSelectedIngredient);
-	const ingredientListRef = useRef<HTMLDivElement>(null);
+	const { isFetching: isLoadingIngredients, isError: hasErrorIngredients } =
+		useGetAvailableIngredientsQuery();
 
-	const closeIngredientDetails = () => {
-		dispatch(setSelectedIngredient(null));
-	};
+	const ingredientsData = useSelector(getAllIngredients);
+
+	const ingredientListRef = useRef<HTMLDivElement>(null);
 
 	const bunsIngredients = useMemo(
 		() =>
@@ -117,11 +106,6 @@ export const IngredientList = ({
 					</div>
 				)}
 			</WithLoader>
-			{selectedIngredientInfo && (
-				<Modal title='Детали ингредиента' onClose={closeIngredientDetails}>
-					<IngredientDetails ingredientInfo={selectedIngredientInfo} />
-				</Modal>
-			)}
 		</div>
 	);
 };

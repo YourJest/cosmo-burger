@@ -1,23 +1,81 @@
 import { AppHeader } from '@components/app-header/app-header';
-import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients';
-import styles from './app.module.scss';
-import { BurgerConstructor } from '@components/burger-constructor/burger-constructor';
-import clsx from 'clsx';
-import { Provider } from 'react-redux';
-import { store } from '../../store';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { HomePage } from '@pages/home/home';
+import { LoginPage } from '@pages/login/login';
+import { RegisterPage } from '@pages/register/register';
+import { ForgotPasswordPage } from '@pages/forgot-password/forgot-password';
+import { Pages } from '@utils/constant';
+import { RestorePasswordPage } from '@pages/restore-password/restore-password';
+import {
+	AuthorizedRoute,
+	UnauthorizedRoute,
+} from '@components/protected-route-element/protected-route-element';
+import { ProfilePage } from '@pages/profile/profile';
+import { ProfileEdit } from '@components/profile-edit/profile-edit';
+import { useGetUserQuery } from '@services/norma/auth-api';
+import { Modal } from '@components/modal/modal';
+import { IngredientDetails } from '@components/ingredient-details/ingredient-details';
+import { useGetAvailableIngredientsQuery } from '@services/norma/api';
 
 export const App = () => {
+	const location = useLocation();
+	const navigate = useNavigate();
+	const background = location.state && location.state.background;
+
+	const handleModalClose = () => {
+		navigate(-1);
+	};
+
+	useGetUserQuery();
+	useGetAvailableIngredientsQuery();
+
 	return (
-		<Provider store={store}>
+		<>
 			<AppHeader />
-			<main className={clsx('pb-10', styles.constructorPage)}>
-				<DndProvider backend={HTML5Backend}>
-					<BurgerIngredients />
-					<BurgerConstructor />
-				</DndProvider>
-			</main>
-		</Provider>
+			<Routes location={background || location}>
+				<Route path={Pages.HOME} element={<HomePage />} />
+				<Route
+					path={Pages.PROFILE}
+					element={<AuthorizedRoute element={<ProfilePage />} />}>
+					<Route
+						path={''}
+						element={<AuthorizedRoute element={<ProfileEdit />} />}
+					/>
+					<Route
+						path={Pages.PROFILE_ORDERS}
+						element={<>Order history here</>}
+					/>
+				</Route>
+				<Route
+					path={Pages.LOGIN}
+					element={<UnauthorizedRoute element={<LoginPage />} />}
+				/>
+				<Route
+					path={Pages.REGISTER}
+					element={<UnauthorizedRoute element={<RegisterPage />} />}
+				/>
+				<Route
+					path={Pages.FORGOT_PASSWORD}
+					element={<UnauthorizedRoute element={<ForgotPasswordPage />} />}
+				/>
+				<Route
+					path={Pages.RESTORE_PASSWORD}
+					element={<UnauthorizedRoute element={<RestorePasswordPage />} />}
+				/>
+				<Route path={Pages.INGREDIENTS} element={<IngredientDetails />} />
+			</Routes>
+			{background && (
+				<Routes>
+					<Route
+						path='/ingredients/:ingredientId'
+						element={
+							<Modal onClose={handleModalClose}>
+								<IngredientDetails />
+							</Modal>
+						}
+					/>
+				</Routes>
+			)}
+		</>
 	);
 };
