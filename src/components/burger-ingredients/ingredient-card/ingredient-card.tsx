@@ -10,9 +10,8 @@ import {
 	getIngredientCount,
 	IngredientEntry,
 } from '@services/burger-constructor/slice';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../store';
 import { Link, useLocation } from 'react-router-dom';
+import { useAppSelector } from '@components/app/hooks';
 
 interface IngredientCardProps {
 	ingredient: IngredientEntry;
@@ -20,8 +19,8 @@ interface IngredientCardProps {
 
 export const IngredientCard = ({ ingredient }: IngredientCardProps) => {
 	const location = useLocation();
-	const count = useSelector((state: RootState) =>
-		getIngredientCount(state.burgerConstructor, ingredient._id, ingredient.type)
+	const count = useAppSelector((state) =>
+		getIngredientCount(state, ingredient._id, ingredient.type)
 	);
 
 	const [{ opacity }, draggableRef] = useDrag({

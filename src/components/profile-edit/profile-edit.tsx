@@ -5,9 +5,9 @@ import {
 import styles from './profile.edit.module.scss';
 import { FormEvent, useEffect, useRef, useState } from 'react';
 import { useForm } from '../../hooks/useForm';
-import { useSelector } from 'react-redux';
 import { getUser } from '@services/user/slice';
 import { useUpdateUserMutation } from '@services/norma/auth-api';
+import { useAppSelector } from '@components/app/hooks';
 
 interface ProfileEditForm {
 	name: string;
@@ -16,7 +16,7 @@ interface ProfileEditForm {
 }
 
 export const ProfileEdit = () => {
-	const user = useSelector(getUser);
+	const user = useAppSelector(getUser);
 	const [triggerUserUpdate] = useUpdateUserMutation();
 	const { fields, handleChange, resetForm } = useForm<ProfileEditForm>({
 		name: user?.name ?? '',

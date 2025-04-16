@@ -6,8 +6,8 @@ import { IngredientCategory } from '../ingredient-category/ingredient-category';
 import { WithLoader } from '@components/with-loader/with-loader';
 import { useGetAvailableIngredientsQuery } from '@services/norma/api';
 import { IngredientTabType } from '@utils/constant';
-import { useSelector } from 'react-redux';
 import { getAllIngredients } from '@services/norma/selectors';
+import { useAppSelector } from '@components/app/hooks';
 
 interface IngredientListProps {
 	bunsRef: RefObject<HTMLDivElement>;
@@ -33,7 +33,7 @@ export const IngredientList = ({
 	const { isFetching: isLoadingIngredients, isError: hasErrorIngredients } =
 		useGetAvailableIngredientsQuery();
 
-	const ingredientsData = useSelector(getAllIngredients);
+	const ingredientsData = useAppSelector(getAllIngredients);
 
 	const ingredientListRef = useRef<HTMLDivElement>(null);
 

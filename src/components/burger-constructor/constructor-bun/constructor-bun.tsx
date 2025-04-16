@@ -2,7 +2,6 @@ import {
 	ConstructorElement,
 	DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch } from 'react-redux';
 import {
 	addBunToConstructor,
 	IngredientEntry,
@@ -11,6 +10,7 @@ import styles from './constructor-bun.module.scss';
 import { useDrop } from 'react-dnd';
 import { DraggableIngredientType } from '@utils/constant';
 import clsx from 'clsx';
+import { useAppDispatch } from '@components/app/hooks';
 
 interface ConstructorBunProps {
 	type: 'top' | 'bottom';
@@ -18,7 +18,7 @@ interface ConstructorBunProps {
 }
 
 export const ConstructorBun = ({ bun, type }: ConstructorBunProps) => {
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	const [{ handlerId }, dropRef] = useDrop<
 		IngredientEntry,
 		void,

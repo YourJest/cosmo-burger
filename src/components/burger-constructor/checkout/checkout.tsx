@@ -8,7 +8,6 @@ import { Modal } from '@components/modal/modal';
 import { useState } from 'react';
 import { OrderDetails } from '@components/order-details/order-details';
 import { usePlaceOrderMutation } from '@services/norma/api';
-import { useSelector } from 'react-redux';
 import {
 	getOrder,
 	getTotalPrice,
@@ -16,14 +15,15 @@ import {
 import { getUser } from '@services/user/slice';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Pages } from '@utils/constant';
+import { useAppSelector } from '@components/app/hooks';
 
 export const Checkout = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	const order = useSelector(getOrder);
-	const totalPrice = useSelector(getTotalPrice);
-	const user = useSelector(getUser);
+	const order = useAppSelector(getOrder);
+	const totalPrice = useAppSelector(getTotalPrice);
+	const user = useAppSelector(getUser);
 
 	const [triggerPlaceOrder] = usePlaceOrderMutation({
 		fixedCacheKey: 'place-order',

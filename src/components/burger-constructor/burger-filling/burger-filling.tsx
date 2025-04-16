@@ -1,19 +1,14 @@
 import styles from './burger-filling.module.scss';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../store';
 import { getBun, getIngredients } from '@services/burger-constructor/slice';
 import clsx from 'clsx';
 import { ConstructorIngredient } from '../constructor-ingredient/constructor-ingredient';
 import { IngredientPlaceholder } from './ingredient-placeholder/ingredient-placeholder';
 import { ConstructorBun } from '../constructor-bun/constructor-bun';
+import { useAppSelector } from '@components/app/hooks';
 
 export const BurgerFilling = () => {
-	const constructorIngredients = useSelector((state: RootState) =>
-		getIngredients(state.burgerConstructor)
-	);
-	const bun = useSelector((state: RootState) =>
-		getBun(state.burgerConstructor)
-	);
+	const constructorIngredients = useAppSelector(getIngredients);
+	const bun = useAppSelector(getBun);
 
 	const ingredients = constructorIngredients?.filter(
 		(ingredient) => ingredient.type !== 'bun'

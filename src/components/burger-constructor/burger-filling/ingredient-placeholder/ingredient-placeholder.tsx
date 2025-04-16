@@ -7,7 +7,7 @@ import {
 	addIngredientToConstructor,
 	IngredientEntry,
 } from '@services/burger-constructor/slice';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '@components/app/hooks';
 
 interface IngredientPlaceholderProps {
 	type: 'top' | 'main' | 'bottom';
@@ -17,7 +17,7 @@ export const IngredientPlaceholder = ({
 	type,
 	text,
 }: IngredientPlaceholderProps) => {
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	const [{ isHover }, droppableRef] = useDrop({
 		accept:
 			type === 'main'
