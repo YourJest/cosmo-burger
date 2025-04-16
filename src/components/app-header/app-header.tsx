@@ -10,6 +10,7 @@ import clsx from 'clsx';
 import { Pages } from '@utils/constant';
 import { useSelector } from 'react-redux';
 import { getName } from '@services/user/slice';
+import { Link } from 'react-router-dom';
 
 export const AppHeader = () => {
 	const name = useSelector(getName);
@@ -32,7 +33,9 @@ export const AppHeader = () => {
 						Лента заказов
 					</LinkButton>
 				</div>
-				<Logo />
+				<Link to={Pages.HOME}>
+					<Logo />
+				</Link>
 				<LinkButton
 					to={Pages.PROFILE}
 					logo={(isActive) => (
