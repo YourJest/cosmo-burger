@@ -59,7 +59,7 @@ export const ConstructorIngredient = ({
 				return;
 			}
 
-			const hoverBoundingRect = ref.current?.getBoundingClientRect();
+			const hoverBoundingRect = ref.current.getBoundingClientRect();
 			const hoverMiddleY =
 				(hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
 			const clientOffset = monitor.getClientOffset();
@@ -87,7 +87,11 @@ export const ConstructorIngredient = ({
 		},
 	});
 
-	const [{ opacity }, drag] = useDrag({
+	const [{ opacity }, drag] = useDrag<
+		EntryWithIndex,
+		void,
+		{ opacity: number }
+	>({
 		type: DraggableIngredientType.ConstructorIngredient,
 		item: (): EntryWithIndex => {
 			return { ...ingredient, index };
