@@ -1,0 +1,19 @@
+.FeedPage {
+	display: flex;
+	flex-direction: column;
+	padding-top: 40px;
+	align-items: center;
+	justify-content: center;
+	.orderListSection {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	}
+	.ordersStatsSection {
+		padding-top: 60px;
+	}
+	.feedPanel {
+		display: flex;
+		gap: 60px;
+	}
+}
