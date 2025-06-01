@@ -23,7 +23,11 @@ export const IngredientCard = ({ ingredient }: IngredientCardProps) => {
 		getIngredientCount(state, ingredient._id, ingredient.type)
 	);
 
-	const [{ opacity }, draggableRef] = useDrag({
+	const [{ opacity }, draggableRef] = useDrag<
+		IngredientEntry,
+		void,
+		{ opacity: number }
+	>({
 		type:
 			ingredient.type === 'bun'
 				? DraggableIngredientType.IngredientCardBun

@@ -1,11 +1,18 @@
 import styles from './profile.module.scss';
 import { Pages } from '@utils/constant';
-import { Outlet, NavLink } from 'react-router-dom';
+import { Outlet, NavLink, useLocation } from 'react-router-dom';
 import clsx from 'clsx';
 import { useLogoutMutation } from '@services/norma/auth-api';
 
+const descriptionMessage: { [key in string]: string } = {
+	[Pages.PROFILE]: 'В этом разделе вы можете изменить свои персональные данные',
+	[Pages.PROFILE_ORDERS]:
+		'В этом разделе вы можете просмотреть свою историю заказов',
+};
+
 export const ProfilePage = () => {
 	const [triggerLogout] = useLogoutMutation({ fixedCacheKey: 'logout' });
+	const location = useLocation();
 
 	const handleLogout = () => {
 		triggerLogout();
@@ -48,7 +55,7 @@ export const ProfilePage = () => {
 						</NavLink>
 					</nav>
 					<p className='text text_type_main-small text_color_inactive'>
-						В этом разделе вы можете изменить свои персональные данные
+						{location.pathname && descriptionMessage[location.pathname]}
 					</p>
 				</div>
 				<Outlet />
