@@ -8,7 +8,7 @@ interface OrderListProps {
 }
 export const OrderList = ({ orders, shouldDisplayStatus }: OrderListProps) => {
 	return (
-		<div className={css.OrderList}>
+		<div className={css.orderList}>
 			{orders &&
 				orders.map((entry) => {
 					return (

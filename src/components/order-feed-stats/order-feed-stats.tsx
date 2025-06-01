@@ -15,7 +15,7 @@ export const OrderFeedStats = () => {
 	const totalTodayOrders = useAppSelector(getTotalTodayOrders);
 
 	return (
-		<div className={css.OrderFeedStats}>
+		<div className={css.orderFeedStats}>
 			<div className={css.orderNumbers}>
 				<div>
 					<p className='text text_type_main-medium'>Готовы:</p>

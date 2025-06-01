@@ -10,7 +10,7 @@ export const FeedPage = () => {
 	const orders = useAppSelector(getAllOrders);
 
 	return (
-		<main className={css.FeedPage}>
+		<main className={css.feedPage}>
 			<div className={css.feedPanel}>
 				<section className={css.orderListSection}>
 					<p className='text text_type_main-large'>Лента заказов</p>

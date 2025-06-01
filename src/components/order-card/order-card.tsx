@@ -40,7 +40,7 @@ export const OrderCard = ({ order, shouldDisplayStatus }: OrderCardProps) => {
 		<Link
 			to={`${location.pathname}/${order.number}`}
 			state={{ background: location }}>
-			<div className={clsx(css.OrderCard, 'p-6')}>
+			<div className={clsx(css.orderCard, 'p-6')}>
 				<div className={css.numberAndDate}>
 					<p className='text text_type_digits-default'>{`#${order.number}`}</p>
 					<FormattedDate

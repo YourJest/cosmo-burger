@@ -80,14 +80,14 @@ export const OrderFeedDetails = () => {
 
 	if (!displayOrder) {
 		return (
-			<div className={css.OrderFeedDetails}>
+			<div className={css.orderFeedDetails}>
 				<p className='text text_type_main-medium'>Заказ не найден</p>
 			</div>
 		);
 	}
 
 	return (
-		<div className={css.OrderFeedDetails}>
+		<div className={css.orderFeedDetails}>
 			<p className={clsx('text text_type_digits-default', css.orderNumber)}>
 				#{displayOrder.number}
 			</p>
