@@ -42,6 +42,7 @@ export const IngredientCard = ({ ingredient }: IngredientCardProps) => {
 			state={{ background: location }}>
 			<div
 				ref={draggableRef}
+				data-cy={`ingredient-card-${ingredient._id}`}
 				style={{ opacity }}
 				className={styles.ingredientCard}>
 				<img src={ingredient.image} alt={ingredient.name} />

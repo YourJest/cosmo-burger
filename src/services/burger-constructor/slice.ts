@@ -25,7 +25,7 @@ export interface BurgerConstructorSlice {
 	constructorIngredients: ConstructorEntry[];
 }
 
-const initialState: BurgerConstructorSlice = {
+export const initialState: BurgerConstructorSlice = {
 	bun: null,
 	constructorIngredients: [],
 };
@@ -88,6 +88,8 @@ export const burgerConstructorSlice = createSlice({
 				: 0,
 	},
 });
+
+export const reducer = burgerConstructorSlice.reducer;
 
 export const {
 	addIngredientToConstructor,
