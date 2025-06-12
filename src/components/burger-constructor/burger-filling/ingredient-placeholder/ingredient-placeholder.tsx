@@ -18,12 +18,16 @@ export const IngredientPlaceholder = ({
 	text,
 }: IngredientPlaceholderProps) => {
 	const dispatch = useAppDispatch();
-	const [{ isHover }, droppableRef] = useDrop({
+	const [{ isHover }, droppableRef] = useDrop<
+		IngredientEntry,
+		void,
+		{ isHover: boolean }
+	>({
 		accept:
 			type === 'main'
 				? DraggableIngredientType.IngredientCard
 				: DraggableIngredientType.IngredientCardBun,
-		drop: (item: IngredientEntry) => {
+		drop: (item) => {
 			if (item.type === 'bun') {
 				dispatch(addBunToConstructor(item));
 			} else {

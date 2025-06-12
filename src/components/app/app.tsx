@@ -12,10 +12,13 @@ import {
 } from '@components/protected-route-element/protected-route-element';
 import { ProfilePage } from '@pages/profile/profile';
 import { ProfileEdit } from '@components/profile-edit/profile-edit';
+import { ProfileOrders } from '@components/profile-orders/profile-orders';
 import { useGetUserQuery } from '@services/norma/auth-api';
 import { Modal } from '@components/modal/modal';
 import { IngredientDetails } from '@components/ingredient-details/ingredient-details';
 import { useGetAvailableIngredientsQuery } from '@services/norma/api';
+import { FeedPage } from '@pages/feed/feed';
+import { OrderFeedDetails } from '@components/order-feed-details/order-feed-details';
 
 export const App = () => {
 	const location = useLocation();
@@ -41,11 +44,9 @@ export const App = () => {
 						path={''}
 						element={<AuthorizedRoute element={<ProfileEdit />} />}
 					/>
-					<Route
-						path={Pages.PROFILE_ORDERS}
-						element={<>Order history here</>}
-					/>
+					<Route path={Pages.PROFILE_ORDERS} element={<ProfileOrders />} />
 				</Route>
+				<Route path={Pages.ORDER_FEED} element={<FeedPage />} />
 				<Route
 					path={Pages.LOGIN}
 					element={<UnauthorizedRoute element={<LoginPage />} />}
@@ -63,14 +64,35 @@ export const App = () => {
 					element={<UnauthorizedRoute element={<RestorePasswordPage />} />}
 				/>
 				<Route path={Pages.INGREDIENTS} element={<IngredientDetails />} />
+				<Route path={Pages.ORDER_FEED_DETAILS} element={<OrderFeedDetails />} />
+				<Route
+					path={Pages.PROFILE_ORDERS_DETAILS}
+					element={<OrderFeedDetails />}
+				/>
 			</Routes>
 			{background && (
 				<Routes>
 					<Route
-						path='/ingredients/:ingredientId'
+						path={Pages.INGREDIENTS}
 						element={
 							<Modal onClose={handleModalClose}>
 								<IngredientDetails />
+							</Modal>
+						}
+					/>
+					<Route
+						path={Pages.ORDER_FEED_DETAILS}
+						element={
+							<Modal onClose={handleModalClose}>
+								<OrderFeedDetails />
+							</Modal>
+						}
+					/>
+					<Route
+						path={Pages.PROFILE_ORDERS_DETAILS}
+						element={
+							<Modal onClose={handleModalClose}>
+								<OrderFeedDetails />
 							</Modal>
 						}
 					/>

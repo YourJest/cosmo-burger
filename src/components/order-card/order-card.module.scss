@@ -1,0 +1,69 @@
+.orderCard {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	background-color: var(--background);
+	border-radius: 40px;
+
+	.numberAndDate {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		width: 100%;
+	}
+
+	.nameAndStatus {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.ingredientsAndPrice {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+
+		.ingredientsWrapper {
+			position: relative;
+			height: 64px;
+
+			.ingredientImage {
+				position: absolute;
+				width: 66px;
+				height: 66px;
+				background: linear-gradient(63.18deg, #801ab3 0%, #4c4cff 100%);
+				border-radius: 50%;
+
+				.image {
+					width: 62px;
+					height: 62px;
+					margin: 2px;
+					background: var(--background-alt);
+					border-radius: 50%;
+					object-fit: cover;
+				}
+
+				.more {
+					position: absolute;
+					top: 0;
+					width: 62px;
+					height: 62px;
+					margin: 2px;
+					background-color: rgb(from var(--background) r g b / 60%);
+					border-radius: 50%;
+
+					.text {
+						line-height: 4;
+						text-align: center;
+						opacity: 1;
+					}
+				}
+			}
+		}
+
+		.price {
+			display: flex;
+			gap: 8px;
+		}
+	}
+}
