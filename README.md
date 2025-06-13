@@ -1,6 +1,8 @@
 # Cosmo bugrer
 
-Practice work project for Yandex Practicum. Readme will be updated soon
+Practice work project for Yandex Practicum.
+
+You can access built application on http://45.159.249.23/
 
 ## Running application
 
