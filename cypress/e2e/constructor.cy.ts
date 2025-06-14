@@ -2,47 +2,48 @@
 
 describe('template spec', () => {
 	beforeEach(() => {
-		cy.intercept('GET', 'https://norma.nomoreparties.space/api/ingredients', {
+		cy.intercept('GET', 'api/ingredients', {
 			fixture: 'ingredients',
 		}).as('getIngredients');
-		cy.intercept('GET', 'https://norma.nomoreparties.space/api/auth/user', {
+		cy.intercept('GET', 'api/auth/user', {
 			fixture: 'user',
 		}).as('getUser');
-		cy.intercept('POST', 'https://norma.nomoreparties.space/api/orders', {
+		cy.intercept('POST', 'api/orders', {
 			fixture: 'order',
 		}).as('placeOrder');
+
 		window.localStorage.setItem('refreshToken', 'test-refreshToken');
 		window.localStorage.setItem('accessToken', 'test-accessToken');
 	});
 
 	// Dragging ingredients
-	it('drags bun to constructor', () => {
-		cy.visit('http://localhost:8080');
+	it('drags bun & ingredient to constructor', () => {
+		cy.visit('');
 		cy.get('[data-cy="ingredient-card-test-bun"]')
 			.trigger('dragstart')
 			.trigger('drag');
 		cy.get('[data-cy="drop-top"]').trigger('dragover').trigger('drop');
-		cy.get('[data-cy="constructor-bun-top"]')
-			.find('.constructor-element__text')
-			.should('have.text', 'Краторная булка N-200i');
-		cy.get('[data-cy="constructor-bun-bottom"]')
-			.find('.constructor-element__text')
-			.should('have.text', 'Краторная булка N-200i');
-	});
-	it('drags ingredient to constructor', () => {
-		cy.visit('http://localhost:8080');
+		cy.getConstructorText('constructor-bun-top').should(
+			'have.text',
+			'Краторная булка N-200i'
+		);
+		cy.getConstructorText('constructor-bun-bottom').should(
+			'have.text',
+			'Краторная булка N-200i'
+		);
 		cy.get('[data-cy="ingredient-card-test-ingredient"]')
 			.trigger('dragstart')
 			.trigger('drag');
 		cy.get('[data-cy="drop-main"]').trigger('dragover').trigger('drop');
-		cy.get('[data-cy="constructor-ingredient-test-ingredient"]')
-			.find('.constructor-element__text')
-			.should('have.text', 'Биокотлета из марсианской Магнолии');
+		cy.getConstructorText('constructor-ingredient-test-ingredient').should(
+			'have.text',
+			'Биокотлета из марсианской Магнолии'
+		);
 	});
 
 	// Create order
 	it('successfully creates order', () => {
-		cy.visit('http://localhost:8080');
+		cy.visit('');
 		cy.wait('@getIngredients');
 		cy.wait('@getUser').then(() => {
 			cy.get('[data-cy="place-order"]').click();
@@ -51,27 +52,17 @@ describe('template spec', () => {
 	});
 
 	// Modal
-	it('successfully open ingredient modal', () => {
-		cy.visit('http://localhost:8080');
+	it('successfully opens and closes ingredient modal', () => {
+		cy.visit('');
 		cy.wait('@getIngredients');
-		cy.get('[data-cy="ingredient-card-test-bun"]').click();
-		cy.get('[data-cy="details-name"]').should(
-			'have.text',
-			'Краторная булка N-200i'
-		);
-	});
-	it('successfully close ingredient modal by click on cross', () => {
-		cy.visit('http://localhost:8080');
-		cy.wait('@getIngredients');
-		cy.get('[data-cy="ingredient-card-test-bun"]').click();
+		cy.get('[data-cy="ingredient-card-test-bun"]').as('testBun');
+		cy.get('@testBun').click();
+		cy.get('[data-cy="details-name"]').as('detailsName');
+		cy.get('@detailsName').should('have.text', 'Краторная булка N-200i');
 		cy.get('[data-cy="modal-cross"]').click();
-		cy.get('[data-cy="details-name"]').should('not.exist');
-	});
-	it('successfully close ingredient modal by click outside', () => {
-		cy.visit('http://localhost:8080');
-		cy.wait('@getIngredients');
-		cy.get('[data-cy="ingredient-card-test-bun"]').click();
+		cy.get('@detailsName').should('not.exist');
+		cy.get('@testBun').click();
 		cy.get('body').click(0, 0);
-		cy.get('[data-cy="details-name"]').should('not.exist');
+		cy.get('@detailsName').should('not.exist');
 	});
 });
