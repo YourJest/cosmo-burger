@@ -1,14 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { authApi } from '@services/norma/auth-api';
 
-interface UserState {
+export interface UserState {
 	user: {
 		email: string | null;
 		name: string | null;
 	} | null;
 }
 
-const initialState: UserState = {
+export const initialState: UserState = {
 	user: null,
 };
 
@@ -53,5 +53,7 @@ export const userSlice = createSlice({
 		),
 	}),
 });
+
+export const reducer = userSlice.reducer;
 
 export const { getName, getUser } = userSlice.selectors;

@@ -17,10 +17,11 @@ export const IngredientDetails = () => {
 	return (
 		<div className={styles.ingredientDetails}>
 			<p className='text text_type_main-large'>Детали ингредиента</p>
-
 			<img src={ingredientInfo.image_large} alt={ingredientInfo.name} />
 			<div className={styles.nameAndDetails}>
-				<p className='text text_type_main-default'>{ingredientInfo.name}</p>
+				<p data-cy={'details-name'} className='text text_type_main-default'>
+					{ingredientInfo.name}
+				</p>
 				<div
 					className={clsx(
 						'text text_type_main-small text_color_inactive',

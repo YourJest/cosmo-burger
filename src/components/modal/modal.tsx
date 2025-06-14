@@ -31,11 +31,13 @@ export const Modal = ({ children, title, onClose }: ModalProps) => {
 				<div className={clsx('p-10', styles.modal)}>
 					<div className={styles.header}>
 						<p className='text text_type_main-large'>{title}</p>
-						<CloseIcon
-							onClick={onClose}
-							className={styles.closeIcon}
-							type='primary'
-						/>
+						<span data-cy={'modal-cross'}>
+							<CloseIcon
+								onClick={onClose}
+								className={styles.closeIcon}
+								type='primary'
+							/>
+						</span>
 					</div>
 					<div>{children}</div>
 				</div>

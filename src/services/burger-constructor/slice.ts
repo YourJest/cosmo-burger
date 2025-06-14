@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { normaApi } from '@services/norma/api';
+import { nanoid } from 'nanoid';
 
 export interface IngredientEntry {
 	_id: string;
@@ -25,7 +26,7 @@ export interface BurgerConstructorSlice {
 	constructorIngredients: ConstructorEntry[];
 }
 
-const initialState: BurgerConstructorSlice = {
+export const initialState: BurgerConstructorSlice = {
 	bun: null,
 	constructorIngredients: [],
 };
@@ -40,7 +41,7 @@ export const burgerConstructorSlice = createSlice({
 			},
 			prepare: (ingredient: IngredientEntry) => {
 				return {
-					payload: { constructorId: crypto.randomUUID(), ...ingredient },
+					payload: { constructorId: nanoid(), ...ingredient },
 				};
 			},
 		},
@@ -88,6 +89,8 @@ export const burgerConstructorSlice = createSlice({
 				: 0,
 	},
 });
+
+export const reducer = burgerConstructorSlice.reducer;
 
 export const {
 	addIngredientToConstructor,

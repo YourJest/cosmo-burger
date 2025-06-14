@@ -38,6 +38,7 @@ export const ConstructorBun = ({ bun, type }: ConstructorBunProps) => {
 	return (
 		<div
 			ref={dropRef}
+			data-cy={`constructor-bun-${type}`}
 			className={clsx('ml-8', styles.bun)}
 			data-handler-id={handlerId}>
 			{!type && <DragIcon type='primary' />}
