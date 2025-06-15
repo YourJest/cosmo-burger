@@ -17,6 +17,7 @@ export const OrderDetails = () => {
 			<div className={clsx('pt-5 pb-5', styles.orderDetails)}>
 				<div className={styles.orderId}>
 					<p
+						data-cy={'order-number'}
 						className={clsx(styles.orderNumber, 'text text_type_digits-large')}>
 						{data?.order.number}
 					</p>

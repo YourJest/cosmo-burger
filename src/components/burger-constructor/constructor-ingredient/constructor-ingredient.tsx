@@ -106,6 +106,7 @@ export const ConstructorIngredient = ({
 	return (
 		<div
 			style={{ opacity }}
+			data-cy={`constructor-ingredient-${ingredient._id}`}
 			ref={ref}
 			className={styles.ingredient}
 			data-handler-id={handlerId}>

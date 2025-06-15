@@ -10,6 +10,7 @@ import { useMemo } from 'react';
 import { OrderEntry } from '@services/norma/order-feed';
 import { Link, useLocation } from 'react-router-dom';
 import { statusReadable } from '@utils/constant';
+import { nanoid } from 'nanoid';
 
 interface OrderCardProps {
 	order: OrderEntry;
@@ -25,7 +26,7 @@ export const OrderCard = ({ order, shouldDisplayStatus }: OrderCardProps) => {
 		return order.ingredients
 			.map((id) => ingredients.find((ingredient) => ingredient._id === id))
 			.filter((i) => i !== undefined)
-			.map((ingredient) => ({ ...ingredient, cardId: crypto.randomUUID() }));
+			.map((ingredient) => ({ ...ingredient, cardId: nanoid() }));
 	}, [order, ingredients]);
 
 	const orderPrice = useMemo(() => {

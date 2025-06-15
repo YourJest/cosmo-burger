@@ -50,7 +50,10 @@ export const Checkout = () => {
 				<p className='text text_type_digits-default'>{totalPrice}</p>
 				<CurrencyIcon type='primary' />
 			</div>
-			<Button htmlType='button' onClick={handlePlaceOrder}>
+			<Button
+				data-cy={'place-order'}
+				htmlType='button'
+				onClick={handlePlaceOrder}>
 				Оформить заказ
 			</Button>
 			{openOrderStatus && (

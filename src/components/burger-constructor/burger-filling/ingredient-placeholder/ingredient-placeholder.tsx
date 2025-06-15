@@ -39,6 +39,7 @@ export const IngredientPlaceholder = ({
 	return (
 		<div
 			ref={droppableRef}
+			data-cy={`drop-${type}`}
 			className={clsx(
 				'ml-8',
 				styles.ingredientPlaceholder,
